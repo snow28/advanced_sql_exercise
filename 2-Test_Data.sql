@@ -21,7 +21,7 @@ SELECT
         WHEN 4 THEN 'Trump'
     END
   ) || seq AS surname,
-  floor(random() * (999999-222222+1) + 222222)::int::INT as phone_numbers,
+  floor(random() * (999999-222222+1) + 222222)::INT as phone_numbers,
   CURRENT_TIMESTAMP as created_at
 FROM GENERATE_SERIES(1, 100000) seq;
 
@@ -62,7 +62,6 @@ SELECT
 FROM GENERATE_SERIES(1, 1000);
 
 c. 1 million of marks
-
 HELP LINK : https://stackoverflow.com/questions/19145761/postgres-for-loop
 
 DO
@@ -86,24 +85,3 @@ BEGIN
    END LOOP;
 END
 $do$;
-
-
-why here mark is different but ID's same
-
-INSERT INTO "examResults"(student_id, subject_id, mark)
-SELECT
-	(SELECT * FROM (SELECT id FROM students ORDER BY RANDOM() LIMIT 1) AS X) as student_id,
-	(SELECT * FROM (SELECT id FROM subjects ORDER BY RANDOM() LIMIT 1) AS Y) as subject_id,
-	(
-		CASE (RANDOM() * 5)::INT
-		  WHEN 0 THEN 0
-		  WHEN 1 THEN 1
-		  WHEN 2 THEN 2
-		  WHEN 3 THEN 3
-		  WHEN 4 THEN 4
-		  WHEN 5 THEN 5
-		END
-	) AS mark
-FROM GENERATE_SERIES(1, 5)
-
-select * from "examResults"

@@ -1,7 +1,3 @@
-ALTER TABLE "students" {
-    name varchar(255) NOT NULL CONSTRAINT name_value_check CHECK name NOT LIKE '%@%'
-}
-
 CREATE TABLE "students" (
   "id" SERIAL PRIMARY KEY,
   "name" varchar(255) NOT NULL,

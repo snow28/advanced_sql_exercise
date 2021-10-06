@@ -4,7 +4,7 @@ CREATE TABLE "students" (
   "surname" varchar(255) NOT NULL,
   "date_of_birth" date,
   "phone_numbers" varchar(255),
-  "primary_skill" varchar(255),
+  "primary_skill" varchar(255) NOT NULL,
   "created_at" timestamp NOT NULL,
   "updated_at" timestamp
 );
@@ -18,7 +18,8 @@ CREATE TABLE "examResults" (
   "id" SERIAL PRIMARY KEY,
   "student_id" int NOT NULL,
   "subject_id" int NOT NULL,
-  "mark" int
+  "mark" int,
+  "created_at" timestamp NOT NULL,
 );
 
 ALTER TABLE "examResults" ADD FOREIGN KEY ("subject_id") REFERENCES "subjects" ("id");

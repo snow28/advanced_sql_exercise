@@ -1,6 +1,6 @@
 a. 100K of users
 
-INSERT INTO students(name, surname, phone_numbers, created_at)
+INSERT INTO students(name, surname, primary_skill, phone_numbers, created_at)
 SELECT
    (
     CASE (RANDOM() * 5)::INT
@@ -8,7 +8,7 @@ SELECT
         WHEN 1 THEN 'Dmytro'
         WHEN 2 THEN 'Egor'
         WHEN 3 THEN 'Tomasz'
-        WHEN 4 THEN 'Renat'
+        WHEN 4 THEN 's.'
         WHEN 5 THEN 'Nick'
     END
   ) AS name,
@@ -18,9 +18,18 @@ SELECT
         WHEN 1 THEN 'Menatto'
         WHEN 2 THEN 'Ponatto'
         WHEN 3 THEN 'Duda'
-        WHEN 4 THEN 'Trump'
+        WHEN 4 THEN ''
     END
-  ) || seq AS surname,
+  ) AS surname,
+  (
+      CASE (RANDOM() * 4)::INT
+          WHEN 0 THEN 'Programming'
+          WHEN 1 THEN 'Natural Nutrition'
+          WHEN 2 THEN 'Astro Physics'
+          WHEN 3 THEN 'History'
+          WHEN 4 THEN 'History of Ancient Greece'
+      END
+    ) AS primary_skill,
   floor(random() * (999999-222222+1) + 222222)::INT as phone_numbers,
   CURRENT_TIMESTAMP as created_at
 FROM GENERATE_SERIES(1, 100000) seq;
@@ -68,7 +77,7 @@ DO
 $do$
 BEGIN
    FOR i IN 1..1000000 LOOP
-		INSERT INTO "examResults"(student_id, subject_id, mark)
+		INSERT INTO "examResults"(student_id, subject_id, mark, created_at)
 		SELECT
 			(SELECT * FROM (SELECT id FROM students ORDER BY RANDOM() LIMIT 1) AS X) as student_id,
 			(SELECT * FROM (SELECT id FROM subjects ORDER BY RANDOM() LIMIT 1) AS Y) as subject_id,
@@ -81,7 +90,8 @@ BEGIN
 				  WHEN 4 THEN 4
 				  WHEN 5 THEN 5
 				END
-			) AS mark;
+			) AS mark,
+			now();
    END LOOP;
 END
 $do$;

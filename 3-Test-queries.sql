@@ -48,6 +48,18 @@ CREATE TRIGGER update_ab_changetimestamp BEFORE UPDATE
     ON students FOR EACH ROW EXECUTE PROCEDURE
     update_changetimestamp_column();
 
+CREATE OR REPLACE FUNCTION update_changetimestamp_column()
+RETURNS TRIGGER AS $$
+BEGIN
+   NEW.updated_at = now();
+   RETURN NEW;
+END;
+$$ language 'plpgsql';
+
+CREATE TRIGGER update_ab_changetimestamp BEFORE UPDATE
+    ON examResults FOR EACH ROW EXECUTE PROCEDURE
+    update_changetimestamp_column();
+
 
 
 --6. Add validation on DB level that will check username on special characters (reject student name with next characters '@', '#', '$'). (0.3 point)
